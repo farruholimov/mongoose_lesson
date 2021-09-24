@@ -1,5 +1,4 @@
 const users = require("../models/UserModel");
-const ads = require("../models/AdsModel");
 const { SignUpValidation, LoginValidation } = require("../modules/validations");
 const { generateHash, compareHash } = require("../modules/bcrypt");
 const { email: sendEmail } = require("../modules/email");
@@ -131,15 +130,10 @@ module.exports = class UserRouteController {
 			return 0;
 		}
 
-		const user_ads = await ads.find({
-			owner_id: user._id,
-		});
-
 		res.render("profile", {
 			user: req.user,
 			profile: user,
 			isOwnProfile: req.user._id.equals(user._id),
-			user_ads,
 		});
 	}
 
