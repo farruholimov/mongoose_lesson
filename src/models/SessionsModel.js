@@ -7,14 +7,7 @@ module.exports = async function Users(Sequelize, sequelize) {
 			},
 			owner_id: {
 				type: Sequelize.DataTypes.UUID,
-				references: "users"
 			},
-			created_at: {
-				type: Sequelize.DataTypes.DATE(),
-				defaultValue: Sequelize.NOW
-			},
-		}, {
-			tableName: "sessions"
 		}
 	)
 }

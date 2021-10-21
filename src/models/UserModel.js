@@ -25,8 +25,6 @@ module.exports = async function Users(Sequelize, sequelize) {
 				allowNull: false,
 				defaultValue: false,
 			}
-		}, {
-			tableName: "users"
 		}
 	)
 }

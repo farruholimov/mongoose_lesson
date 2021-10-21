@@ -17,11 +17,11 @@ module.exports = class UserRouteController {
 		try {
 			const { name, email, password } = await SignUpValidation(req.body);
 
-			const user = await users.create({
+			const user = await req.db.users.create({
 				name,
 				email,
 				password: await generateHash(password),
-			});
+			}); 
 
 			// await sendEmail(
 			// 	email,
@@ -30,7 +30,7 @@ module.exports = class UserRouteController {
 			// 	`<a href="http://localhost:8000/users/verify/${user._id}"/>Tasdiqlash</a>`
 			// );
 
-			console.log(`http://10.10.129.48:8000/users/verify/${user._id}`);
+			console.log(`http://10.10.129.48:8000/users/verify/${user.id}`);
 
 			res.redirect("/users/login");
 		} catch (error) {
@@ -67,7 +67,7 @@ module.exports = class UserRouteController {
 			res.cookie(
 				"token",
 				await createToken({
-					id: user._id,
+					id: user.id,
 				})
 			).redirect("/");
 		} catch (error) {
@@ -80,8 +80,12 @@ module.exports = class UserRouteController {
 		try {
 			const { email, password } = await LoginValidation(req.body);
 
-			const user = await users.findOne({
-				email: email,
+			console.log(email);
+
+			const user = await req.db.users.findOne({
+				where: {
+					email: email
+				}
 			});
 
 			if (!user) throw new Error("User topilmadi");
@@ -89,23 +93,26 @@ module.exports = class UserRouteController {
 			if (!(await compareHash(password, user.password)))
 				throw new Error("Parol xato");
 
-			await sessions.deleteMany({
-				owner_id: user._id,
-				user_agent: req.headers["user-agent"],
+			await req.db.sessions.destroy({
+				where: {
+					owner_id: user.id,
+					user_agent: req.headers["user-agent"],
+				}
 			});
 
-			const session = await sessions.create({
-				owner_id: user._id,
+			const session = await req.db.sessions.create({
 				user_agent: req.headers["user-agent"],
+				owner_id: user.id,
 			});
 
 			res.cookie(
 				"token",
 				await createToken({
-					session_id: session._id,
+					session_id: session.id,
 				})
 			).redirect("/");
 		} catch (error) {
+			console.log(error);
 			res.render("login", {
 				error: error + "",
 			});

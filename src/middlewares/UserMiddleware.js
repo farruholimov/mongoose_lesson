@@ -1,5 +1,4 @@
 const sessions = require("../models/SessionsModel");
-const users = require("../models/UserModel");
 const { checkToken } = require("../modules/jwt");
 
 module.exports = async function UserMiddleware(req, res, next) {
@@ -15,11 +14,15 @@ module.exports = async function UserMiddleware(req, res, next) {
 			return;
 		}
 
-		const session = await sessions
+		const session = await req.db.sessions
 			.findOne({
-				_id: data.session_id,
+				where: {
+					id: data.session_id,
+				},
+				include: req.db.users,
 			})
-			.populate("owner_id");
+
+		console.log("SESSION: ",session);
 
 		if (!session) {
 			next();

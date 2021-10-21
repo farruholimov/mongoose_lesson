@@ -6,6 +6,7 @@ const path = require("path");
 const routes = require("./routes/routes");
 const mongo = require("./modules/mongoose");
 const UserMiddleware = require("./middlewares/UserMiddleware");
+const postgres = require("./modules/database");
 
 async function server(mode) {
 	const app = express();
@@ -14,12 +15,17 @@ async function server(mode) {
 	try {
 		// middlewares
 		app.use(express.json());
-		app.use(express.urlencoded({ extended: true }));
+		app.use(express.urlencoded({
+			extended: true
+		}));
 		app.use(cookieParser());
 		app.use("/public", express.static(path.join(__dirname, "public")));
 		app.use(UserMiddleware);
 
-		await mongo();
+		app.use(async (req, res, next) => {
+			req.db = await postgres()
+			next();
+		});
 
 		if (mode == "DEV") {
 			app.use(morgan("dev"));
