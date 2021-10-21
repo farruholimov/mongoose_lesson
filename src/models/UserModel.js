@@ -1,28 +1,26 @@
-const mongoose = require("mongoose");
-
-const userSchema = new mongoose.Schema({
-	name: {
-		type: String,
-		max: [32, "Ismingiz juda uzun"],
-		min: [3, "Ismingiz juda qisqa"],
-		required: true,
-	},
-	email: {
-		type: String,
-		required: true,
-		unique: true,
-	},
-	password: {
-		type: String,
-		required: true,
-	},
-	isVerified: {
-		type: Boolean,
-		required: true,
-		default: false,
-	},
-});
-
-const users = mongoose.model("users", userSchema);
-
-module.exports = users;
+module.exports = async function Users(Sequelize, sequelize) {
+	return await sequelize.define(
+		"users", {
+			name: {
+				type: Sequelize.DataTypes.STRING(32),
+				allowNull: false,
+			},
+			email: {
+				type: Sequelize.DataTypes.STRING,
+				allowNull: false,
+				unique: true,
+			},
+			password: {
+				type: Sequelize.DataTypes.STRING,
+				allowNull: false,
+			},
+			isVerified: {
+				type: Sequelize.DataTypes.BOOLEAN,
+				allowNull: false,
+				defaultValue: false,
+			}
+		}, {
+			tableName: "users"
+		}
+	)
+}

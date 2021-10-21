@@ -1,20 +1,20 @@
-const mongoose = require("mongoose");
-
-const sessionsSchema = new mongoose.Schema({
-	user_agent: {
-		type: String,
-		required: true,
-	},
-	owner_id: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "users",
-	},
-	created_at: {
-		type: Date,
-		default: new Date(),
-	},
-});
-
-const sessions = mongoose.model("sessions", sessionsSchema);
-
-module.exports = sessions;
+module.exports = async function Users(Sequelize, sequelize) {
+	return await sequelize.define(
+		"sessions", {
+			user_agent: {
+				type: Sequelize.DataTypes.STRING,
+				allowNull: false,
+			},
+			owner_id: {
+				type: Sequelize.DataTypes.UUID,
+				references: "users"
+			},
+			created_at: {
+				type: Sequelize.DataTypes.DATE(),
+				defaultValue: Sequelize.NOW
+			},
+		}, {
+			tableName: "sessions"
+		}
+	)
+}
