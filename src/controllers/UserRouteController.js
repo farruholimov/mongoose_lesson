@@ -83,8 +83,8 @@ module.exports = class UserRouteController {
 			const user = await req.db.users.findOne({
 				where: {
 					email: email
-				}
-			});
+				},
+			},{raw: true});
 
 			if (!user) throw new Error("User topilmadi");
 
@@ -93,8 +93,8 @@ module.exports = class UserRouteController {
 
 			await req.db.sessions.destroy({
 				where: {
-					owner_id: user.user_id,
 					user_agent: req.headers["user-agent"],
+					owner_id: user.user_id,
 				}
 			});
 
@@ -106,7 +106,7 @@ module.exports = class UserRouteController {
 			res.cookie(
 				"token",
 				await createToken({
-					session_id: session.session_id,
+					session_id: session.dataValues.session_id,
 				})
 			).redirect("/");
 		} catch (error) {

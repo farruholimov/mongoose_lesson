@@ -3,26 +3,30 @@ const { checkToken } = require("../modules/jwt");
 
 module.exports = async function UserMiddleware(req, res, next) {
 	try {
-		console.log("DB",req.db);
-
+		
 		if (!req.cookies.token) {
 			next();
 			return;
 		}
 		const data = await checkToken(req.cookies.token);
-
-
+		
+		
 		if (!data) {
 			next();
 			return;
 		}
+		
+		console.log("TOKEN:", data);
+		console.log("DB",req.db.users);
 
 		const session = await req.db.sessions
 			.findOne({
 				where: {
 					session_id: data.session_id,
 				},
-				include: req.db.users,
+				include: [{
+					model: req.db.users
+				}],
 			})
 
 

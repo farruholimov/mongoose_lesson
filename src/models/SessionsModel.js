@@ -7,12 +7,9 @@ module.exports = async function Users(Sequelize, sequelize) {
 				allowNull: false,
 				primaryKey: true,
 			},
-			user_agent: {
+			session_user_agent: {
 				type: Sequelize.DataTypes.STRING,
 				allowNull: false,
-			},
-			owner_id: {
-				type: Sequelize.DataTypes.UUID,
 			},
 		}
 	)

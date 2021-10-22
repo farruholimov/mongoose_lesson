@@ -7,20 +7,20 @@ module.exports = async function Users(Sequelize, sequelize) {
 				allowNull: false,
 				primaryKey: true,
 			},
-			name: {
+			user_name: {
 				type: Sequelize.DataTypes.STRING(32),
 				allowNull: false,
 			},
-			email: {
+			user_email: {
 				type: Sequelize.DataTypes.STRING,
 				allowNull: false,
 				unique: true,
 			},
-			password: {
+			user_password: {
 				type: Sequelize.DataTypes.STRING,
 				allowNull: false,
 			},
-			isVerified: {
+			user_isVerified: {
 				type: Sequelize.DataTypes.BOOLEAN,
 				allowNull: false,
 				defaultValue: false,
