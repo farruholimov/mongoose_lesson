@@ -20,13 +20,14 @@ async function server(mode) {
 		}));
 		app.use(cookieParser());
 		app.use("/public", express.static(path.join(__dirname, "public")));
-		app.use(UserMiddleware);
-
+		
 		app.use(async (req, res, next) => {
 			req.db = await postgres()
 			next();
 		});
-
+		
+		app.use(UserMiddleware);
+		
 		if (mode == "DEV") {
 			app.use(morgan("dev"));
 		}

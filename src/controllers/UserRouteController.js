@@ -80,8 +80,6 @@ module.exports = class UserRouteController {
 		try {
 			const { email, password } = await LoginValidation(req.body);
 
-			console.log(email);
-
 			const user = await req.db.users.findOne({
 				where: {
 					email: email
@@ -95,20 +93,20 @@ module.exports = class UserRouteController {
 
 			await req.db.sessions.destroy({
 				where: {
-					owner_id: user.id,
+					owner_id: user.user_id,
 					user_agent: req.headers["user-agent"],
 				}
 			});
 
 			const session = await req.db.sessions.create({
 				user_agent: req.headers["user-agent"],
-				owner_id: user.id,
+				owner_id: user.user_id,
 			});
 
 			res.cookie(
 				"token",
 				await createToken({
-					session_id: session.id,
+					session_id: session.session_id,
 				})
 			).redirect("/");
 		} catch (error) {

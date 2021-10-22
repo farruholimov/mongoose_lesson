@@ -1,7 +1,7 @@
 module.exports = async function Users(Sequelize, sequelize) {
 	return await sequelize.define(
 		"users", {
-			id: {
+			user_id: {
 				type: Sequelize.DataTypes.UUID,
 				defaultValue: Sequelize.UUIDV4(),
 				allowNull: false,
