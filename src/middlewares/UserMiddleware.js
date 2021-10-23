@@ -15,9 +15,6 @@ module.exports = async function UserMiddleware(req, res, next) {
 			next();
 			return;
 		}
-		
-		console.log("TOKEN:", data);
-		console.log("DB",req.db.users);
 
 		const session = await req.db.sessions
 			.findOne({
@@ -30,14 +27,19 @@ module.exports = async function UserMiddleware(req, res, next) {
 			})
 
 
-		console.log("SESSION: ",session);
-
 		if (!session) {
 			next();
 			return;
 		}
 
-		req.user = session.owner_id;
+		const user = await req.db.users.findOne({
+			where: {
+				user_id: session.dataValues.user_id
+			}
+		}, {raw: true})
+
+
+		req.user = user.dataValues;
 
 		next();
 	} catch (error) {

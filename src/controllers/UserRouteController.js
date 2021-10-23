@@ -17,10 +17,12 @@ module.exports = class UserRouteController {
 		try {
 			const { name, email, password } = await SignUpValidation(req.body);
 
+			console.log(name, email, password);
+
 			const user = await req.db.users.create({
-				name,
-				email,
-				password: await generateHash(password),
+				user_name:  name,
+				user_email: email,
+				user_password: await generateHash(password),
 			}); 
 
 			// await sendEmail(
@@ -30,7 +32,7 @@ module.exports = class UserRouteController {
 			// 	`<a href="http://localhost:8000/users/verify/${user._id}"/>Tasdiqlash</a>`
 			// );
 
-			console.log(`http://10.10.129.48:8000/users/verify/${user.id}`);
+			// console.log(`http://10.10.129.48:8000/users/verify/${user.id}`);
 
 			res.redirect("/users/login");
 		} catch (error) {
@@ -82,25 +84,25 @@ module.exports = class UserRouteController {
 
 			const user = await req.db.users.findOne({
 				where: {
-					email: email
+					user_email: email
 				},
 			},{raw: true});
 
 			if (!user) throw new Error("User topilmadi");
 
-			if (!(await compareHash(password, user.password)))
+			if (!(await compareHash(password, user.user_password)))
 				throw new Error("Parol xato");
 
 			await req.db.sessions.destroy({
 				where: {
-					user_agent: req.headers["user-agent"],
-					owner_id: user.user_id,
+					session_user_agent: req.headers["user-agent"],
+					user_id: user.user_id,
 				}
 			});
 
 			const session = await req.db.sessions.create({
-				user_agent: req.headers["user-agent"],
-				owner_id: user.user_id,
+				session_user_agent: req.headers["user-agent"],
+				user_id: user.user_id,
 			});
 
 			res.cookie(
