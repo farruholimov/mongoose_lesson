@@ -2,9 +2,9 @@ const express = require("express");
 const PORT = process.env.PORT || 8000;
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+const expressFileupload = require("express-fileupload")
 const path = require("path");
 const routes = require("./routes/routes");
-const mongo = require("./modules/mongoose");
 const UserMiddleware = require("./middlewares/UserMiddleware");
 const postgres = require("./modules/database");
 
@@ -19,6 +19,7 @@ async function server(mode) {
 			extended: true
 		}));
 		app.use(cookieParser());
+		app.use(expressFileupload());
 		app.use("/public", express.static(path.join(__dirname, "public")));
 		
 		app.use(async (req, res, next) => {

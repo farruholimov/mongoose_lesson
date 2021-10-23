@@ -1,9 +1,11 @@
 <%- include('parts/header') %> <% var isOwnProfile %>
 
+<% var user_ads = [] %>
+
 <section class="m-4 p-4">
 	<div class="container">
 		<h1 class="text-center">
-			<%= profile.name %>'s profile <% if(isOwnProfile) {%>
+			<%= profile.user_name %>'s profile <% if(isOwnProfile) {%>
 			<a href="/users/sessions">Sessiyalar</a>
 			<% } %>
 		</h1>

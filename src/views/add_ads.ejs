@@ -1,0 +1,22 @@
+<%- include('parts/header') %> <% var isOwnProfile %>
+
+<section class="m-4 p-4">
+    <div class="container">
+        <form action="/ads/add" method="POST" enctype="multipart/form-data">
+            <input name="title" type="text" maxlength="128">
+            <input name="price" type="number">
+            <select name="category">
+                <%for (let category of categories ) {%>
+                    <option value="<%= category.category_id %>"><%= category.category_name %></option>
+                <% } %>
+            </select>
+            <input name="phone" type="number">
+            <input name="photos" type="file" multiple>
+            <textarea name="description" cols="30" rows="10" maxlength="1024"></textarea>
+
+            <button>Submit</button>
+        </form>
+    </div>
+</section>
+
+<%- include('parts/footer') %>

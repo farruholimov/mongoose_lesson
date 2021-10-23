@@ -17,7 +17,6 @@ module.exports = class UserRouteController {
 		try {
 			const { name, email, password } = await SignUpValidation(req.body);
 
-			console.log(name, email, password);
 
 			const user = await req.db.users.create({
 				user_name:  name,
@@ -123,14 +122,12 @@ module.exports = class UserRouteController {
 		res.clearCookie("token").redirect("/");
 	}
 	static async UserProfileGetController(req, res) {
-		const valid = isValidObjectId(req.params?.id);
 
-		if (!valid) {
-			res.redirect("/");
-			return 0;
-		}
-
-		const user = await users.findById(req.params?.id);
+		const user = await req.db.users.findOne({
+			where: {
+				user_id: req.params?.id
+			}
+		});
 
 		if (!user) {
 			res.redirect("/");
@@ -140,19 +137,23 @@ module.exports = class UserRouteController {
 		res.render("profile", {
 			user: req.user,
 			profile: user,
-			isOwnProfile: req.user._id.equals(user._id),
+			isOwnProfile: req.user.user_id === user.user_id ? true : false,
 		});
 	}
 
 	static async UserSessionsGetController(req, res) {
 		try {
-			const user_sessions = await sessions.find({
-				owner_id: req.user._id,
+			const user_sessions = await req.db.sessions.findAll({
+				where: {
+					user_id: req.user.user_id,
+				}
 			});
+
+			console.log(user_sessions);
 
 			res.render("sessions", {
 				user: req.user,
-				user_sessions,
+				user_sessions: user_sessions,
 			});
 		} catch (error) {
 			console.log(error);

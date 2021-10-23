@@ -1,4 +1,4 @@
-module.exports = async function Users(Sequelize, sequelize) {
+module.exports = async function Sessions(Sequelize, sequelize) {
 	return await sequelize.define(
 		"sessions", {
 			session_id: {

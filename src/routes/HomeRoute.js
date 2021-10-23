@@ -3,12 +3,7 @@ const UserMiddleware = require("../middlewares/UserMiddleware");
 
 const router = require("express").Router();
 
-router.get("/", UserMiddleware, (req, res) => {
-	
-	res.render("index", {
-		user: req.user,
-	});
-});
+router.get("/", UserMiddleware, HomeGetController);
 
 
 module.exports = {

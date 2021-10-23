@@ -1,5 +1,5 @@
 <%- include('parts/header') %>
-<% var categories = [] %>
+<% var categories %>
 
 <section class="m-4 p-4">
 	<div class="container">
@@ -10,7 +10,7 @@
 			<div class="col-lg-4 col-md-6">
 				<div class="card text-center" style="flex-grow: 1">
 					<img
-						src="public/images/<%= category.photo%>"
+						src="public/images/<%= category.category_photo%>"
 						class="card-img-top"
 						style="
 							height: 200px;
@@ -22,10 +22,10 @@
 					/>
 					<div class="card-body">
 						<a
-							href="/category/<%= category._id%>"
+							href="/category/<%= category.category_id%>"
 							class="btn btn-primary m-0 p-2"
 							><h5 class="card-title p-0 m-0">
-								<%= category.name%>
+								<%= category.category_name%>
 							</h5></a
 						>
 					</div>

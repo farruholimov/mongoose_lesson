@@ -38,10 +38,11 @@ module.exports = class Validations {
 		return await Joi.object({
 			title: Joi.string()
 				.required()
-				.min(8)
+				.min(2)
 				.max(128)
 				.trim()
-				.error(new Error("Sarlavhada xato bor.")),
+				// .error(new Error("Sarlavhada xato bor."))
+				,
 			price: Joi.number()
 				.min(0)
 				.required()
@@ -54,10 +55,9 @@ module.exports = class Validations {
 			category: Joi.string()
 				.required()
 				.error(new Error("Kategoriyada xato bor.")),
-			photos: Joi.string(),
 			phone: Joi.string()
 				.required()
-				.error(new Error("Raqam o'zbekistonni emas"))
+				.error(new Error("Raqam o'zbekistonniki emas"))
 				.pattern(/^998(9[012345789]|6[125679]|7[01234569])[0-9]{7}$/),
 		}).validateAsync(data);
 	}
