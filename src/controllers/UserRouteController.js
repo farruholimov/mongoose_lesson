@@ -163,13 +163,12 @@ module.exports = class UserRouteController {
 
 	static async UserSessionDeleteController(req, res) {
 		try {
-			const session_id = isValidObjectId(req.params?.id);
 
-			if (!session_id) throw new Error("Session id is invalid");
-
-			let x = await sessions.deleteOne({
-				owner_id: req.user._id,
-				_id: req.params?.id,
+			let x = await req.db.sessions.destroy({
+				where: {
+					user_id: req.user.user_id,
+					session_id: req.params?.id,
+				}
 			});
 
 			res.redirect("/users/sessions");

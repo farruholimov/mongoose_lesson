@@ -1,11 +1,11 @@
 module.exports = class HomeRoute{
     static async HomeGetController(req, res) {
 
-        const categories = await req.db.categories.findAll({})
+        const ads = await req.db.ads.findAll({})
 
         res.render("index", {
             user: req.user,
-            categories,
+            ads,
         });
     }
 }

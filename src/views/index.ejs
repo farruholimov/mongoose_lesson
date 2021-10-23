@@ -1,16 +1,16 @@
 <%- include('parts/header') %>
-<% var categories %>
+<% var ads %>
 
 <section class="m-4 p-4">
 	<div class="container">
-		<h2 class="text-center">Kategoriyalar</h2>
+		<h2 class="text-center">E'lonlar</h2>
 
 		<div class="row g-4">
-			<% for(let category of categories) {%>
+			<% for(let ad of ads) {%>
 			<div class="col-lg-4 col-md-6">
 				<div class="card text-center" style="flex-grow: 1">
 					<img
-						src="public/images/<%= category.category_photo%>"
+						src="public/uploads/<%= ad.ad_photos[0]%>"
 						class="card-img-top"
 						style="
 							height: 200px;
@@ -22,12 +22,13 @@
 					/>
 					<div class="card-body">
 						<a
-							href="/category/<%= category.category_id%>"
+							href="/ads/<%= ad.ad_slug%>"
 							class="btn btn-primary m-0 p-2"
 							><h5 class="card-title p-0 m-0">
-								<%= category.category_name%>
-							</h5></a
-						>
+								<%= ad.ad_title%>
+							</h5>
+						</a>
+						<h5><%= ad.ad_price%></h5>
 					</div>
 				</div>
 			</div>

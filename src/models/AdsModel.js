@@ -2,6 +2,12 @@ module.exports = async function Ads(Sequelize, sequelize){
     return await sequelize.define(
         "ads",
         {
+            ad_id: {
+                type: Sequelize.UUID,
+                defaultValue: Sequelize.UUIDV4(),
+                allowNull: false,
+                primaryKey: true,
+            },
             ad_title: {
                 type: Sequelize.STRING(128),
                 allowNull: false,
@@ -24,6 +30,10 @@ module.exports = async function Ads(Sequelize, sequelize){
             },
             ad_photos: {
                 type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.STRING),
+            },
+            ad_slug: {
+                type: Sequelize.STRING,
+                allowNull: false,
             }
         }
     )

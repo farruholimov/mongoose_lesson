@@ -1,0 +1,38 @@
+<%- include('parts/header') %>
+<% var ad %>
+<% var category %>
+
+<section class="m-4 p-4">
+	<div class="container">
+		<h2 class="text-center"><%= ad.ad_title%></h2>
+
+		<div class="row g-4">
+			<div class="col-lg-12 col-md-12">
+				<div class="card text-center" style="flex-grow: 1">
+					<img
+						src="/public/uploads/<%= ad.ad_photos[0]%>"
+						class="card-img-top"
+						style="
+							height: 400px;
+							width: 400px;
+							object-fit: cover;
+							margin: 0 auto;
+						"
+						alt="..."
+					/>
+					<div class="card-body">
+						<h5 class="card-title p-0 m-0">
+                            <%= ad.ad_title%>
+                        </h5>
+						<h5><%= ad.ad_price%></h5>
+						<h5><%= ad.ad_user_phone%></h5>
+						<h5><%= category.category_name %></h5>
+                        <p><%= ad.ad_description %></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<%- include('parts/footer') %>
