@@ -164,7 +164,7 @@ module.exports = class UserRouteController {
 	static async UserSessionDeleteController(req, res) {
 		try {
 
-			let x = await req.db.sessions.destroy({
+			let x = await req.db.sessions.destroy({ 
 				where: {
 					user_id: req.user.user_id,
 					session_id: req.params?.id,
